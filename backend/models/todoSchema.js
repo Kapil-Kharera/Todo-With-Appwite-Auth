@@ -10,9 +10,30 @@ const todoSchema = new mongoose.Schema({
 
     tasks: [
         {
-            type: String
+            title: {
+                type: String,
+                trim: true,
+                requierd: [true, "Title for task is required"]
+            },
+            idDone: {
+                type: Boolean,
+                default: false
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now()
+            },
+            udatedAt: {
+                type: Date,
+                default: Date.now()
+            }
         }
-    ]
+    ],
+    userId: {
+        type: String,
+        trim: true,
+        require: [true, "UserId is needed!"]
+    }
 }, {
     timestamps: true
 });
