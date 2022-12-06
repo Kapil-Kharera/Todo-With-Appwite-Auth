@@ -33,3 +33,30 @@ exports.createTodo = async (req, res) => {
     }
 }
 
+exports.createTask = async (req, res) => {
+    try {
+        const todoId = req.params.id;
+        const { title } = req.body;
+
+        if (!title) {
+            return res.status(401).json({
+                success: false,
+                message: "Enter the Task Name"
+            })
+        }
+
+        const tasks = await Todo.findByIdAndUpdate(todoId, {$addToSet: {"task" : {title}}});
+
+        res.status(200).json({
+            success: true,
+            message: "Task created succesfully"
+        })
+    } catch (error) {
+        console.log(error.message);
+        res.status(401).json({
+            success: false,
+            message: "Task is not Created."
+        })
+    }
+}
+
