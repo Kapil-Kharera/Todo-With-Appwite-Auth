@@ -45,11 +45,13 @@ exports.createTask = async (req, res) => {
             })
         }
 
-        const tasks = await Todo.findByIdAndUpdate(todoId, {$addToSet: {"task" : {title}}});
+        const tasks = await Todo.findByIdAndUpdate(todoId, { $addToSet: { "tasks": { title } } });
+        console.log(tasks);
 
         res.status(200).json({
             success: true,
-            message: "Task created succesfully"
+            message: "Task created succesfully",
+            tasks
         })
     } catch (error) {
         console.log(error.message);
@@ -57,6 +59,25 @@ exports.createTask = async (req, res) => {
             success: false,
             message: "Task is not Created."
         })
+    }
+}
+
+exports.listTodos = async (_req, res) => {
+    try {
+       
+        const todoList = await Todo.find({});
+
+        res.status(200).json({
+            success: true,
+            message: "All list of Todos",
+            todoList
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(401).json({
+            success: false,
+            message: "Not able to fetch the list of Todos",
+        });
     }
 }
 
