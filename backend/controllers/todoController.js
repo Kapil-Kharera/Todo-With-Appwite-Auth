@@ -81,3 +81,25 @@ exports.listTodos = async (_req, res) => {
     }
 }
 
+exports.listTasks = async (req, res) => {
+  try {
+
+    const tasks = await Todo.findById(req.params.id);
+
+    if (!tasks) {
+        throw new Error.message;
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "List of All Tasks",
+        tasks
+    });
+  } catch (error) {
+    res.status(401).json({
+        success: false,
+        message: "Unable to fetch all Tasks",
+    })
+  }
+}
+
